@@ -35,8 +35,12 @@ class ForumUser extends ForumAppModel {
      * @return array
      */
     public function getNewestUser() {
+        $field = Configure::read('User.fieldMap.created');
+        if (!$this->hasField($field)) {
+            return false;
+        }
         return $this->find('first', array(
-            'order' => array('User.created' => 'DESC'),
+            'order' => array($field => 'DESC'),
             'limit' => 1,
             'cache' => __METHOD__
         ));
